@@ -17,6 +17,8 @@ class Game {
     this.statusText = document.getElementById('status-text');
     this.screenFlash = document.getElementById('screen-flash');
 
+    this.audio = new AudioManager();
+
     this.bindEvents();
   }
 
