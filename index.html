@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>WIRE DEFUSAL SYSTEM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- Idle Screen -->
+    <div id="idle-screen" class="screen active">
+      <div class="idle-content">
+        <div class="idle-title">WIRE DEFUSAL SYSTEM</div>
+        <div class="idle-subtitle">AUTHORIZED PERSONNEL ONLY</div>
+        <div class="idle-prompt">[ CLICK TO INITIATE ]</div>
+      </div>
+    </div>
+
+    <!-- Active Screen -->
+    <div id="active-screen" class="screen">
+      <div id="timer-display">
+        <div class="timer-label">TIME REMAINING</div>
+        <div id="timer-value">02:00</div>
+      </div>
+      <canvas id="wire-canvas"></canvas>
+      <div id="status-bar">
+        <div id="status-text">SELECT WIRE TO CUT</div>
+      </div>
+    </div>
+
+    <!-- Win Screen -->
+    <div id="win-screen" class="screen">
+      <div class="result-content">
+        <div class="result-icon">&#10003;</div>
+        <div class="result-title">BOMB DEFUSED</div>
+        <div class="result-subtitle">SYSTEM NEUTRALIZED</div>
+      </div>
+    </div>
+
+    <!-- Lose Screen -->
+    <div id="lose-screen" class="screen">
+      <div class="result-content">
+        <div class="result-icon">&#10007;</div>
+        <div class="result-title">DETONATION</div>
+        <div class="result-subtitle">DEFUSAL FAILED</div>
+      </div>
+    </div>
+
+    <!-- Scanline overlay -->
+    <div id="scanlines"></div>
+    <!-- Screen flash overlay -->
+    <div id="screen-flash"></div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
