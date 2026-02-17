@@ -18,6 +18,7 @@ class Game {
     this.screenFlash = document.getElementById('screen-flash');
 
     this.audio = new AudioManager();
+    this.renderer = new WireRenderer(document.getElementById('wire-canvas'), this);
 
     this.bindEvents();
   }
@@ -36,6 +37,15 @@ class Game {
   start() {
     if (this.state !== 'idle') return;
     this.state = 'active';
+
+    // Request fullscreen for immersive experience
+    const el = document.documentElement;
+    if (el.requestFullscreen) {
+      el.requestFullscreen().catch(() => {});
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    }
+
     this.timeRemaining = CONFIG.timerSeconds;
     this.cutWires.clear();
     this.showScreen('active');
@@ -74,6 +84,7 @@ class Game {
     if (this.cutWires.has(wireIndex)) return;
 
     this.cutWires.add(wireIndex);
+    if (this.audio) this.audio.playSnip();
 
     if (wireIndex === CONFIG.correctWire - 1) {
       this.win();
@@ -115,6 +126,7 @@ class Game {
     if (this.renderer) this.renderer.cutWire(CONFIG.correctWire - 1, true);
 
     setTimeout(() => {
+      if (this.renderer) this.renderer.stop();
       this.showScreen('win');
     }, 1500);
   }
@@ -134,6 +146,7 @@ class Game {
     this.shakeScreen(true);
 
     setTimeout(() => {
+      if (this.renderer) this.renderer.stop();
       this.showScreen('lose');
     }, 1500);
   }
