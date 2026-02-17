@@ -340,6 +340,33 @@ class WireRenderer {
     }
   }
 
+  explode() {
+    const cx = this.width / 2;
+    const cy = this.height / 2;
+    for (let i = 0; i < 80; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 3 + Math.random() * 10;
+      this.particles.push({
+        x: cx + (Math.random() - 0.5) * 100,
+        y: cy + (Math.random() - 0.5) * 100,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1,
+        decay: 0.01 + Math.random() * 0.02,
+        color: ['#ff3333', '#ff8800', '#ffdd33', '#ffffff'][Math.floor(Math.random() * 4)],
+        size: 3 + Math.random() * 5,
+      });
+    }
+    // Keep animating particles even after stop
+    const particleLoop = () => {
+      if (this.particles.length === 0) return;
+      this.ctx.clearRect(0, 0, this.width, this.height);
+      this.updateAndDrawParticles();
+      requestAnimationFrame(particleLoop);
+    };
+    particleLoop();
+  }
+
   updateAndDrawParticles() {
     const ctx = this.ctx;
     this.particles = this.particles.filter(p => p.life > 0);

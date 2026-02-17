@@ -142,6 +142,7 @@ class Game {
       this.audio.playExplosion();
     }
 
+    if (this.renderer) this.renderer.explode();
     this.flashScreen('white');
     this.shakeScreen(true);
 
