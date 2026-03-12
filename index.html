@@ -7,15 +7,33 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#000000">
-  <title>WIRE DEFUSAL SYSTEM</title>
+  <title>ESCAPE ROOM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div id="game-container">
+    <!-- Menu Screen -->
+    <div id="menu-screen" class="screen active">
+      <div class="menu-content">
+        <div class="menu-title">ESCAPE ROOM</div>
+        <div class="menu-subtitle">SELECT ACTIVITY</div>
+        <div class="menu-buttons">
+          <button class="menu-btn" data-activity="wire-defusal">
+            <span class="menu-btn-icon">&#9889;</span>
+            <span class="menu-btn-label">WIRE DEFUSAL</span>
+          </button>
+          <button class="menu-btn" data-activity="countdown-timer">
+            <span class="menu-btn-icon">&#9201;</span>
+            <span class="menu-btn-label">COUNTDOWN TIMER</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Idle Screen -->
-    <div id="idle-screen" class="screen active">
+    <div id="idle-screen" class="screen">
       <div class="idle-content">
         <div class="idle-title">WIRE DEFUSAL SYSTEM</div>
         <div class="idle-subtitle">AUTHORIZED PERSONNEL ONLY</div>
@@ -53,6 +71,25 @@
       </div>
     </div>
 
+    <!-- Timer Screen -->
+    <div id="timer-screen" class="screen">
+      <div class="timer-activity-content">
+        <div id="countdown-display">
+          <div class="timer-label">COUNTDOWN</div>
+          <div id="countdown-value">1:30.000</div>
+        </div>
+        <div id="countdown-prompt" class="idle-prompt">TAP OR PRESS SPACEBAR TO START</div>
+        <div id="countdown-paused" class="countdown-paused" style="display:none;">PAUSED</div>
+        <div id="countdown-finished" style="display:none;">
+          <div class="countdown-timesup">TIMES UP!</div>
+          <button id="countdown-reset-btn" class="reset-btn">RESET</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corner menu button (shared across activities) -->
+    <button id="activity-menu-btn" class="corner-menu-btn" style="display:none;">&#9666; MENU</button>
+
     <!-- Scanline overlay -->
     <div id="scanlines"></div>
     <!-- Screen flash overlay -->
@@ -63,5 +100,7 @@
   <script src="js/audio.js"></script>
   <script src="js/renderer.js"></script>
   <script src="js/game.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/menu.js"></script>
 </body>
 </html>
