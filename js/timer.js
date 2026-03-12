@@ -140,14 +140,13 @@ class CountdownTimer {
   }
 
   _updateDisplay() {
-    const mins = Math.floor(this.remainingMs / 60000);
-    const secs = Math.floor((this.remainingMs % 60000) / 1000);
-    const ms = Math.floor(this.remainingMs % 1000);
+    const totalSecs = Math.ceil(this.remainingMs / 1000);
+    const mins = Math.floor(totalSecs / 60);
+    const secs = totalSecs % 60;
 
     this.display.textContent =
       mins + ':' +
-      String(secs).padStart(2, '0') + '.' +
-      String(ms).padStart(3, '0');
+      String(secs).padStart(2, '0');
   }
 
   _startTickSound() {
