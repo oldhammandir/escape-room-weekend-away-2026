@@ -143,6 +143,21 @@ class AudioManager {
     osc.stop(this.ctx.currentTime + 1.5);
   }
 
+  playTick() {
+    this.ensureContext();
+    const duration = 0.03;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.value = 1000;
+    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + duration);
+  }
+
   playBuzzer() {
     this.ensureContext();
     const duration = 1.0;
