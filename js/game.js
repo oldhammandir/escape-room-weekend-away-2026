@@ -182,7 +182,16 @@ class Game {
     if (this.renderer) this.renderer.reset();
     this.showScreen('idle');
   }
+
+  show() {
+    this.showScreen('idle');
+  }
+
+  hide() {
+    this.reset();
+    Object.values(this.screens).forEach(s => s.classList.remove('active'));
+  }
 }
 
-// Initialize
+// Game instance created at load, but idle screen not shown until menu launches it
 const game = new Game();
