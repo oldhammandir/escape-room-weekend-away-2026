@@ -1,6 +1,6 @@
 class CountdownTimer {
   constructor() {
-    this.state = 'waiting'; // waiting, running, paused, finished
+    this.state = 'waiting'; // waiting, running, stopped, finished
     this.totalMs = CONFIG.countdownSeconds * 1000;
     this.remainingMs = this.totalMs;
     this.lastFrameTime = null;
@@ -11,36 +11,29 @@ class CountdownTimer {
     this.screen = document.getElementById('timer-screen');
     this.display = document.getElementById('countdown-value');
     this.prompt = document.getElementById('countdown-prompt');
-    this.pausedIndicator = document.getElementById('countdown-paused');
     this.finishedContainer = document.getElementById('countdown-finished');
-    this.resetBtn = document.getElementById('countdown-reset-btn');
 
     this.audio = null; // set by menu
 
     this._onKeyDown = this._onKeyDown.bind(this);
-    this._onTap = this._onTap.bind(this);
-
-    this.resetBtn.addEventListener('click', () => this.resetTimer());
   }
 
   show(audio) {
     this.audio = audio;
     this.screen.classList.add('active');
     document.addEventListener('keydown', this._onKeyDown);
-    this.screen.addEventListener('click', this._onTap);
-    this.resetTimer();
+    this._reset();
   }
 
   hide() {
     this.screen.classList.remove('active');
     document.removeEventListener('keydown', this._onKeyDown);
-    this.screen.removeEventListener('click', this._onTap);
     this._stopLoop();
     this._stopTickSound();
     this.state = 'waiting';
   }
 
-  resetTimer() {
+  _reset() {
     this._stopLoop();
     this._stopTickSound();
     this.state = 'waiting';
@@ -48,8 +41,7 @@ class CountdownTimer {
     this.lastFrameTime = null;
     this._updateDisplay();
     this.display.classList.remove('warning');
-    this.prompt.style.display = '';
-    this.pausedIndicator.style.visibility = 'hidden';
+    this.prompt.style.display = 'none';
     this.finishedContainer.style.display = 'none';
   }
 
@@ -59,43 +51,26 @@ class CountdownTimer {
     this._handleInput();
   }
 
-  _onTap(e) {
-    // Ignore clicks on buttons
-    if (e.target.closest('button')) return;
-    this._handleInput();
-  }
-
   _handleInput() {
     if (this.state === 'waiting') {
       this._start();
     } else if (this.state === 'running') {
-      this._pause();
-    } else if (this.state === 'paused') {
-      this._resume();
+      this._stop();
     }
-    // finished state: spacebar ignored, must click RESET
   }
 
   _start() {
     this.state = 'running';
-    this.prompt.style.display = 'none';
+    this.prompt.style.display = '';
     this.lastFrameTime = performance.now();
     this._tick();
   }
 
-  _pause() {
-    this.state = 'paused';
+  _stop() {
+    this.state = 'stopped';
     this._stopLoop();
     this._stopTickSound();
-    this.pausedIndicator.style.visibility = 'visible';
-  }
-
-  _resume() {
-    this.state = 'running';
-    this.pausedIndicator.style.visibility = 'hidden';
-    this.lastFrameTime = performance.now();
-    if (this.remainingMs <= 10000) this._startTickSound();
-    this._tick();
+    this.prompt.style.display = 'none';
   }
 
   _tick() {
@@ -134,7 +109,6 @@ class CountdownTimer {
     this._stopTickSound();
     this.remainingMs = 0;
     this._updateDisplay();
-    this.pausedIndicator.style.visibility = 'hidden';
     this.finishedContainer.style.display = '';
     if (this.audio) this.audio.playBuzzer();
   }

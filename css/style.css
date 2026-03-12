@@ -352,15 +352,6 @@ html, body {
   margin-top: 1rem;
 }
 
-.countdown-paused {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  color: #ffdd33;
-  text-shadow: 0 0 15px rgba(255, 221, 51, 0.5);
-  letter-spacing: 0.3em;
-  animation: pulse-text 1.5s ease-in-out infinite;
-  margin-top: 1rem;
-}
-
 .countdown-timesup {
   font-size: clamp(2.5rem, 6vw, 5rem);
   color: #ff3333;
@@ -369,22 +360,6 @@ html, body {
   margin-bottom: 2rem;
 }
 
-.reset-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 51, 51, 0.3);
-  color: #ff3333;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: clamp(0.9rem, 2vw, 1.2rem);
-  padding: 0.8rem 2.5rem;
-  cursor: pointer;
-  letter-spacing: 0.2em;
-  transition: all 0.3s ease;
-}
-
-.reset-btn:hover {
-  background: rgba(255, 51, 51, 0.15);
-  border-color: rgba(255, 51, 51, 0.6);
-}
 
 /* === SCREEN SHAKE === */
 @keyframes shake {
