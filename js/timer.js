@@ -109,6 +109,7 @@ class CountdownTimer {
     this._stopTickSound();
     this.remainingMs = 0;
     this._updateDisplay();
+    this.prompt.style.visibility = 'hidden';
     this.finishedContainer.style.display = '';
     if (this.audio) this.audio.playBuzzer();
   }
