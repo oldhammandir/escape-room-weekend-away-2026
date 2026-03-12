@@ -41,7 +41,7 @@ class CountdownTimer {
     this.lastFrameTime = null;
     this._updateDisplay();
     this.display.classList.remove('warning');
-    this.prompt.style.display = 'none';
+    this.prompt.style.visibility = 'hidden';
     this.finishedContainer.style.display = 'none';
   }
 
@@ -61,7 +61,7 @@ class CountdownTimer {
 
   _start() {
     this.state = 'running';
-    this.prompt.style.display = '';
+    this.prompt.style.visibility = 'visible';
     this.lastFrameTime = performance.now();
     this._tick();
   }
@@ -70,7 +70,7 @@ class CountdownTimer {
     this.state = 'stopped';
     this._stopLoop();
     this._stopTickSound();
-    this.prompt.style.display = 'none';
+    this.prompt.style.visibility = 'hidden';
   }
 
   _tick() {
