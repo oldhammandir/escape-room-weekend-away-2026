@@ -11,11 +11,15 @@ class CountdownTimer {
     this.screen = document.getElementById('timer-screen');
     this.display = document.getElementById('countdown-value');
     this.prompt = document.getElementById('countdown-prompt');
+    this.resumePrompt = document.getElementById('countdown-resume-prompt');
+    this.resetBtn = document.getElementById('countdown-reset-btn');
     this.finishedContainer = document.getElementById('countdown-finished');
 
     this.audio = null; // set by menu
 
     this._onKeyDown = this._onKeyDown.bind(this);
+    this._onResetClick = () => this._reset();
+    this.resetBtn.addEventListener('click', this._onResetClick);
   }
 
   show(audio) {
@@ -42,6 +46,8 @@ class CountdownTimer {
     this._updateDisplay();
     this.display.classList.remove('warning');
     this.prompt.style.visibility = 'hidden';
+    this.resumePrompt.style.visibility = 'hidden';
+    this.resetBtn.style.visibility = 'hidden';
     this.finishedContainer.style.display = 'none';
   }
 
@@ -56,6 +62,8 @@ class CountdownTimer {
       this._start();
     } else if (this.state === 'running') {
       this._stop();
+    } else if (this.state === 'stopped') {
+      this._resume();
     }
   }
 
@@ -71,6 +79,17 @@ class CountdownTimer {
     this._stopLoop();
     this._stopTickSound();
     this.prompt.style.visibility = 'hidden';
+    this.resumePrompt.style.visibility = 'visible';
+    this.resetBtn.style.visibility = 'visible';
+  }
+
+  _resume() {
+    this.state = 'running';
+    this.resumePrompt.style.visibility = 'hidden';
+    this.resetBtn.style.visibility = 'hidden';
+    this.prompt.style.visibility = 'visible';
+    this.lastFrameTime = performance.now();
+    this._tick();
   }
 
   _tick() {
