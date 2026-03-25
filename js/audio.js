@@ -181,6 +181,33 @@ class AudioManager {
     osc2.stop(this.ctx.currentTime + duration);
   }
 
+  playTimesUp() {
+    this.ensureContext();
+    const now = this.ctx.currentTime;
+    const gain = this.ctx.createGain();
+    gain.gain.value = 0.4;
+    gain.connect(this.ctx.destination);
+
+    // Three descending horn blasts
+    for (let i = 0; i < 3; i++) {
+      const start = now + i * 0.6;
+      const osc = this.ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(600 - i * 100, start);
+      osc.frequency.linearRampToValueAtTime(400 - i * 100, start + 0.4);
+
+      const blastGain = this.ctx.createGain();
+      blastGain.gain.setValueAtTime(0.4, start);
+      blastGain.gain.setValueAtTime(0.4, start + 0.3);
+      blastGain.gain.exponentialRampToValueAtTime(0.001, start + 0.5);
+
+      osc.connect(blastGain);
+      blastGain.connect(this.ctx.destination);
+      osc.start(start);
+      osc.stop(start + 0.5);
+    }
+  }
+
   stopAll() {
     this.stopAlarm();
   }
