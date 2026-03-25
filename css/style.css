@@ -361,6 +361,123 @@ html, body {
 }
 
 
+/* === CODE ENTRY SCREEN === */
+.code-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#code-timer-display {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+}
+
+#code-timer-value {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: #33ff88;
+  text-shadow: 0 0 20px rgba(51, 255, 136, 0.5), 0 0 40px rgba(51, 255, 136, 0.2);
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+#code-timer-value.warning {
+  color: #ff3333;
+  text-shadow: 0 0 20px rgba(255, 51, 51, 0.5), 0 0 40px rgba(255, 51, 51, 0.2);
+  animation: pulse-timer 0.5s ease-in-out infinite;
+}
+
+.code-title {
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  color: #ff3333;
+  letter-spacing: 0.4em;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+}
+
+#code-display {
+  display: flex;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  margin-bottom: 2rem;
+}
+
+.code-digit {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  color: #33ff88;
+  text-shadow: 0 0 15px rgba(51, 255, 136, 0.5);
+  width: clamp(3rem, 8vw, 5rem);
+  border-bottom: 3px solid rgba(51, 255, 136, 0.3);
+  padding-bottom: 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.code-digit.filled {
+  text-shadow: 0 0 20px rgba(51, 255, 136, 0.8);
+}
+
+#code-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.4rem, 1vw, 0.7rem);
+  max-width: 300px;
+}
+
+.keypad-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: #33ff88;
+  background: rgba(51, 255, 136, 0.05);
+  border: 1px solid rgba(51, 255, 136, 0.2);
+  padding: clamp(0.6rem, 2vw, 1rem);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.1em;
+}
+
+.keypad-btn:hover {
+  background: rgba(51, 255, 136, 0.15);
+  border-color: rgba(51, 255, 136, 0.5);
+}
+
+.keypad-btn:active {
+  background: rgba(51, 255, 136, 0.25);
+}
+
+.keypad-clear {
+  color: #ff3333;
+  border-color: rgba(255, 51, 51, 0.2);
+  background: rgba(255, 51, 51, 0.05);
+}
+
+.keypad-clear:hover {
+  background: rgba(255, 51, 51, 0.15);
+  border-color: rgba(255, 51, 51, 0.5);
+}
+
+.keypad-enter {
+  color: #33ff88;
+  border-color: rgba(51, 255, 136, 0.3);
+  background: rgba(51, 255, 136, 0.08);
+}
+
+.keypad-enter:hover {
+  background: rgba(51, 255, 136, 0.2);
+  border-color: rgba(51, 255, 136, 0.6);
+}
+
+#code-status {
+  margin-top: 1.5rem;
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  color: #ff3333;
+  letter-spacing: 0.3em;
+  min-height: 1.5em;
+}
+
 /* === SCREEN SHAKE === */
 @keyframes shake {
   0%, 100% { transform: translate(0, 0); }

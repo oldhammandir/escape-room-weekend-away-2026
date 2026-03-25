@@ -1,6 +1,8 @@
 const CONFIG = {
-  timerSeconds: 120,
-  penaltySeconds: 30,
+  timerSeconds: 480,
+  penaltySeconds: 20,
+  codePenaltySeconds: 10,
+  correctCode: '1977',
   wireCount: 5,
   correctWire: 3,
   wireColors: ['#ff3333', '#3388ff', '#33ff88', '#ffdd33', '#ffffff'],

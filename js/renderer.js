@@ -7,12 +7,15 @@ class WireRenderer {
     this.particles = [];
     this.animationId = null;
     this.hoveredWire = -1;
+    this.mouseX = -1;
+    this.mouseY = -1;
     this.time = 0;
     this.isRunning = false;
 
     this.resize();
     window.addEventListener('resize', () => this.resize());
     this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
+    this.canvas.addEventListener('mouseleave', () => { this.mouseX = -1; this.mouseY = -1; this.hoveredWire = -1; });
     this.canvas.addEventListener('click', (e) => this.onClick(e));
     this.canvas.addEventListener('touchstart', (e) => this.onTouch(e), { passive: false });
   }
@@ -86,6 +89,10 @@ class WireRenderer {
     if (!this.isRunning) return;
     this.time += 0.016;
     this.ctx.clearRect(0, 0, this.width, this.height);
+
+    if (this.mouseX >= 0 && this.mouseY >= 0) {
+      this.hoveredWire = this.wireAtPoint(this.mouseX, this.mouseY);
+    }
 
     this.drawTerminalBlocks();
     this.drawWires();
@@ -274,9 +281,8 @@ class WireRenderer {
 
   onMouseMove(e) {
     const rect = this.canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    this.hoveredWire = this.wireAtPoint(x, y);
+    this.mouseX = e.clientX - rect.left;
+    this.mouseY = e.clientY - rect.top;
   }
 
   onClick(e) {
@@ -310,17 +316,6 @@ class WireRenderer {
     const path = this.getWirePath(wire);
     const cutPoint = this.bezierPoint(path, 0.5);
     this.spawnSparks(cutPoint.x, cutPoint.y, wire.color, isCorrect ? 30 : 15);
-
-    if (isCorrect) {
-      setTimeout(() => {
-        this.wires.forEach(w => {
-          if (!w.cut) {
-            w.cut = true;
-            w.cutProgress = 1;
-          }
-        });
-      }, 500);
-    }
   }
 
   spawnSparks(x, y, color, count) {
@@ -379,7 +374,7 @@ class WireRenderer {
 
       ctx.save();
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, Math.max(0, p.size * p.life), 0, Math.PI * 2);
       ctx.fillStyle = p.color;
       ctx.globalAlpha = p.life;
       ctx.shadowColor = p.color;
