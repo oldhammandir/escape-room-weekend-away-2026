@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CONFIG } from '../config';
 import { useCountdown, formatCountdown } from '../hooks/useCountdown';
 import { useAudio } from '../hooks/useAudio';
@@ -11,6 +11,8 @@ interface CountdownScreenProps {
 export default function CountdownScreen({ active }: CountdownScreenProps) {
   const audio = useAudio();
   const tickIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const [hasBeenStopped, setHasBeenStopped] = useState(false);
 
   const { remainingMs, state, start, stop, reset } = useCountdown({
     totalMs: CONFIG.countdownSeconds * 1000,
@@ -30,9 +32,11 @@ export default function CountdownScreen({ active }: CountdownScreenProps) {
   useEffect(() => {
     if (active) {
       reset();
+      setHasBeenStopped(false);
     } else {
       stopTickSound();
       reset();
+      setHasBeenStopped(false);
     }
     return () => stopTickSound();
   }, [active, reset]);
@@ -58,6 +62,9 @@ export default function CountdownScreen({ active }: CountdownScreenProps) {
         start();
       } else if (state === 'running') {
         stop();
+        setHasBeenStopped(true);
+      } else if (state === 'stopped') {
+        start();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -75,7 +82,7 @@ export default function CountdownScreen({ active }: CountdownScreenProps) {
             {formatCountdown(remainingMs)}
           </div>
         </div>
-        {state === 'running' && (
+        {state === 'running' && !hasBeenStopped && (
           <div className="countdown-prompt">PRESS SPACEBAR TO STOP THE TIME</div>
         )}
         {state === 'finished' && (

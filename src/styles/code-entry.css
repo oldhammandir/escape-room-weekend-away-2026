@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: clamp(5rem, 15vh, 8rem);
 }
 
 .code-timer-display {
@@ -114,9 +115,9 @@
   min-height: 1.5em;
 }
 
-@media (max-height: 480px) {
-  .code-timer-display {
-    top: 0.5rem;
+@media (max-height: 700px) {
+  .code-content {
+    padding-top: clamp(4rem, 12vh, 6rem);
   }
 
   .code-title {
@@ -125,6 +126,34 @@
 
   .code-display {
     margin-bottom: 1rem;
+  }
+}
+
+@media (max-height: 480px) {
+  .code-timer-display {
+    top: 0.5rem;
+  }
+
+  .code-content {
+    padding-top: 3.5rem;
+  }
+
+  .code-title {
+    margin-bottom: 0.5rem;
+    font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+  }
+
+  .code-display {
+    margin-bottom: 0.5rem;
+  }
+
+  .code-digit {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    width: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  .code-status {
+    margin-top: 0.5rem;
   }
 }
 
