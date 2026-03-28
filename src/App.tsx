@@ -4,6 +4,7 @@ import IdleScreen from './components/IdleScreen';
 import WinScreen from './components/WinScreen';
 import LoseScreen from './components/LoseScreen';
 import WireDefusalGame from './components/WireDefusalGame';
+import CountdownScreen from './components/CountdownScreen';
 
 type Screen = 'menu' | 'idle' | 'wire-defusal' | 'countdown' | 'win' | 'lose';
 
@@ -63,6 +64,7 @@ export default function App() {
         flashScreen={flashScreen}
         shakeScreen={shakeScreen}
       />
+      <CountdownScreen active={screen === 'countdown'} />
       <WinScreen active={screen === 'win'} onClick={handleReturnToMenu} />
       <LoseScreen active={screen === 'lose'} onClick={handleReturnToMenu} />
 
