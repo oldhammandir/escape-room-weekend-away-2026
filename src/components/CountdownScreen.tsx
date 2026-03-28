@@ -10,47 +10,45 @@ interface CountdownScreenProps {
 
 export default function CountdownScreen({ active }: CountdownScreenProps) {
   const audio = useAudio();
-  const tickIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const lastTickSlotRef = useRef<number | null>(null);
 
   const [hasBeenStopped, setHasBeenStopped] = useState(false);
 
   const { remainingMs, state, start, stop, reset } = useCountdown({
     totalMs: CONFIG.countdownSeconds * 1000,
     onFinish: () => {
-      stopTickSound();
       audio.playTimesUp();
     },
   });
-
-  const stopTickSound = () => {
-    if (tickIntervalRef.current) {
-      clearInterval(tickIntervalRef.current);
-      tickIntervalRef.current = null;
-    }
-  };
 
   useEffect(() => {
     if (active) {
       reset();
       setHasBeenStopped(false);
+      lastTickSlotRef.current = null;
     } else {
-      stopTickSound();
       reset();
       setHasBeenStopped(false);
+      lastTickSlotRef.current = null;
     }
-    return () => stopTickSound();
   }, [active, reset]);
 
+  // Tick in sync with the displayed timer
   useEffect(() => {
-    if (state === 'running' && remainingMs <= 10000 && !tickIntervalRef.current) {
+    if (state !== 'running' || remainingMs <= 0) {
+      lastTickSlotRef.current = null;
+      return;
+    }
+
+    // Use half-second slots for final 10s, whole-second slots otherwise
+    const slot = remainingMs <= 10000
+      ? Math.ceil(remainingMs / 500)
+      : Math.ceil(remainingMs / 1000);
+
+    if (lastTickSlotRef.current !== null && slot !== lastTickSlotRef.current) {
       audio.playTick();
-      tickIntervalRef.current = setInterval(() => {
-        audio.playTick();
-      }, 1000);
     }
-    if (state !== 'running') {
-      stopTickSound();
-    }
+    lastTickSlotRef.current = slot;
   }, [state, remainingMs, audio]);
 
   useEffect(() => {
