@@ -39,8 +39,8 @@ export default function WireDefusalGame({
     },
   });
 
-  // Start alarm when entering wires phase
-  if (active && phase === 'wires' && !alarmStartedRef.current) {
+  // Start alarm when game becomes active (plays through all phases)
+  if (active && !alarmStartedRef.current) {
     alarmStartedRef.current = true;
     audio.startAlarm();
   }

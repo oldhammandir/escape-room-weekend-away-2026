@@ -59,17 +59,43 @@ export default function KnotGame({ active, timeRemaining, applyPenalty, onComple
 
   return (
     <div className={`screen${active ? ' active' : ''} knot-game-screen`}>
-      {/* Timer */}
-      <div className="timer-display">
-        <div className="timer-label">TIME REMAINING</div>
-        <div className={`knot-timer-value${timeRemaining <= 30 ? ' warning' : ''}`}>
-          {formatTime(timeRemaining)}
-        </div>
-      </div>
+      {/* Timer bar */}
+      {(() => {
+        const isCritical = timeRemaining < 30;
+        const isUrgent = timeRemaining < 60;
+        const pct = (timeRemaining / CONFIG.timerSeconds) * 100;
+        const statusClass = isCritical ? 'critical' : isUrgent ? 'urgent' : '';
+        return (
+          <div className="knot-timer-bar-wrap">
+            <div className={`knot-timer-bar ${statusClass}`}>
+              <div className="knot-timer-bar-left">
+                <svg className="knot-timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  {isUrgent ? (
+                    <><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></>
+                  ) : (
+                    <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/></>
+                  )}
+                </svg>
+                <span className="knot-timer-label">
+                  {isCritical ? 'CRITICAL' : isUrgent ? 'WARNING' : 'TIME REMAINING'}
+                </span>
+              </div>
+              <span className="knot-timer-digits">{formatTime(timeRemaining)}</span>
+            </div>
+            <div className="knot-timer-progress">
+              <div className={`knot-timer-progress-fill ${statusClass}`} style={{ width: `${pct}%` }} />
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Header */}
       <div className="knot-header">
-        <div className="knot-title">WIRE OVERRIDE</div>
+        <div className="knot-title">
+          <svg className="knot-shield-icon" viewBox="0 0 24 24" fill="none" stroke="#ff3333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>WIRE OVERRIDE</span>
+          <svg className="knot-shield-icon" viewBox="0 0 24 24" fill="none" stroke="#ff3333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
         <div className="knot-subtitle">REROUTE THE CIRCUITS — ELIMINATE ALL CROSSINGS</div>
       </div>
 

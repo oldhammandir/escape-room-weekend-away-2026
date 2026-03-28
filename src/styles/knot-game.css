@@ -5,26 +5,99 @@
   padding: 1rem;
 }
 
-.knot-game-screen .timer-display {
-  position: absolute;
-  top: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
+/* === TIMER BAR === */
+.knot-timer-bar-wrap {
+  width: min(90vw, 420px);
   z-index: 10;
 }
 
-.knot-timer-value {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  color: #33ff88;
-  text-shadow: 0 0 20px rgba(51, 255, 136, 0.5), 0 0 40px rgba(51, 255, 136, 0.2);
-  letter-spacing: 0.1em;
-  font-variant-numeric: tabular-nums;
+.knot-timer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(102, 102, 102, 0.3);
+  border-bottom: none;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
 }
 
-.knot-timer-value.warning {
+.knot-timer-bar.urgent {
+  border-color: rgba(255, 51, 51, 0.5);
+  background: rgba(255, 51, 51, 0.08);
+}
+
+.knot-timer-bar.critical {
+  border-color: #ff3333;
+  background: rgba(255, 51, 51, 0.15);
+  box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+}
+
+.knot-timer-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.knot-timer-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #666;
+}
+
+.knot-timer-bar.urgent .knot-timer-icon,
+.knot-timer-bar.critical .knot-timer-icon {
   color: #ff3333;
-  text-shadow: 0 0 20px rgba(255, 51, 51, 0.5), 0 0 40px rgba(255, 51, 51, 0.2);
+}
+
+.knot-timer-bar.critical .knot-timer-icon {
+  animation: pulse-timer 0.5s ease-in-out infinite;
+}
+
+.knot-timer-label {
+  font-size: clamp(0.55rem, 1.2vw, 0.7rem);
+  letter-spacing: 0.25em;
+  color: #666;
+}
+
+.knot-timer-bar.urgent .knot-timer-label,
+.knot-timer-bar.critical .knot-timer-label {
+  color: #ff3333;
+}
+
+.knot-timer-digits {
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  font-variant-numeric: tabular-nums;
+  color: #ccc;
+}
+
+.knot-timer-bar.urgent .knot-timer-digits,
+.knot-timer-bar.critical .knot-timer-digits {
+  color: #ff3333;
+}
+
+.knot-timer-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+}
+
+.knot-timer-progress-fill {
+  height: 100%;
+  background: #33ff88;
+  transition: width 1s linear;
+}
+
+.knot-timer-progress-fill.urgent {
+  background: #ff3333;
+}
+
+.knot-timer-progress-fill.critical {
+  background: #ff3333;
   animation: pulse-timer 0.5s ease-in-out infinite;
 }
 
@@ -32,10 +105,13 @@
 .knot-header {
   text-align: center;
   z-index: 10;
-  padding-top: clamp(4rem, 10vh, 6rem);
 }
 
 .knot-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
   font-size: clamp(1.2rem, 3vw, 2rem);
   color: #ff3333;
   letter-spacing: 0.3em;
@@ -86,13 +162,24 @@
 .knot-stat-difficulty.hard { color: #ff3333; }
 .knot-stat-difficulty.critical { color: #ff3333; font-weight: bold; }
 
+/* === SHIELD ICON === */
+.knot-shield-icon {
+  width: 0.8em;
+  height: 0.8em;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(255, 51, 51, 0.4));
+}
+
 /* === GAME BOARD === */
 .knot-board {
   position: relative;
-  max-width: min(85vw, 500px);
+  max-width: min(85vw, 650px);
   aspect-ratio: 1;
   margin: 0 auto;
   z-index: 10;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 51, 51, 0.25);
+  box-shadow: 0 0 20px rgba(255, 51, 51, 0.05), inset 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
 .knot-board svg {
@@ -253,21 +340,12 @@
 
 /* === RESPONSIVE === */
 @media (max-height: 700px) {
-  .knot-header {
-    padding-top: clamp(3rem, 8vh, 4.5rem);
-  }
   .knot-game-screen {
     gap: 0.5rem;
   }
 }
 
 @media (max-height: 480px) {
-  .knot-game-screen .timer-display {
-    top: 0.5rem;
-  }
-  .knot-header {
-    padding-top: 2.5rem;
-  }
   .knot-board {
     max-width: min(70vw, 350px);
   }
