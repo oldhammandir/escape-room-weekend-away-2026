@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import { CONFIG } from '../config';
 import { useTimer } from '../hooks/useTimer';
 import { useAudio } from '../hooks/useAudio';
+import KnotGame from './KnotGame';
 import WireDefusalScreen from './WireDefusalScreen';
 import CodeEntryScreen from './CodeEntryScreen';
 
@@ -20,7 +21,7 @@ export default function WireDefusalGame({
   flashScreen,
   shakeScreen,
 }: WireDefusalGameProps) {
-  const [phase, setPhase] = useState<'wires' | 'code'>('wires');
+  const [phase, setPhase] = useState<'knot' | 'wires' | 'code'>('knot');
   const [cutWires, setCutWires] = useState<Set<number>>(new Set());
   const [statusMessage, setStatusMessage] = useState('SELECT WIRE TO CUT');
   const audio = useAudio();
@@ -38,8 +39,8 @@ export default function WireDefusalGame({
     },
   });
 
-  // Start alarm when game becomes active
-  if (active && !alarmStartedRef.current) {
+  // Start alarm when entering wires phase
+  if (active && phase === 'wires' && !alarmStartedRef.current) {
     alarmStartedRef.current = true;
     audio.startAlarm();
   }
@@ -47,10 +48,14 @@ export default function WireDefusalGame({
     alarmStartedRef.current = false;
     audio.stopAll();
     setCutWires(new Set());
-    setPhase('wires');
+    setPhase('knot');
     setStatusMessage('SELECT WIRE TO CUT');
     resetTimer();
   }
+
+  const handleKnotComplete = useCallback(() => {
+    setPhase('wires');
+  }, []);
 
   const handleWireCut = useCallback((wireIndex: number) => {
     if (cutWires.has(wireIndex)) return;
@@ -91,6 +96,12 @@ export default function WireDefusalGame({
 
   return (
     <>
+      <KnotGame
+        active={active && phase === 'knot'}
+        timeRemaining={timeRemaining}
+        applyPenalty={applyPenalty}
+        onComplete={handleKnotComplete}
+      />
       <WireDefusalScreen
         active={active && phase === 'wires'}
         timeRemaining={timeRemaining}
