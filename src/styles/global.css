@@ -1,3 +1,4 @@
+/* === RESET & BASE === */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -16,6 +17,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* === GAME CONTAINER === */
 #game-container {
   position: relative;
   width: 100vw;
@@ -24,5 +26,177 @@ html, body {
     radial-gradient(ellipse at 50% 0%, #1a1a2e 0%, #0a0a0a 70%),
     linear-gradient(180deg, #0d0d1a 0%, #0a0a0a 100%);
   overflow: hidden;
-  color: white;
+}
+
+/* === SCREENS === */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === SCANLINE OVERLAY === */
+.scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+}
+
+/* === SCREEN FLASH === */
+.screen-flash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.screen-flash.red {
+  background: rgba(255, 0, 0, 0.4);
+  opacity: 1;
+}
+
+.screen-flash.white {
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 1;
+}
+
+.screen-flash.fade-out {
+  transition: opacity 0.5s ease;
+  opacity: 0;
+}
+
+/* === SCREEN SHAKE === */
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-8px, -5px); }
+  20% { transform: translate(7px, 8px); }
+  30% { transform: translate(-6px, 3px); }
+  40% { transform: translate(5px, -7px); }
+  50% { transform: translate(-4px, 6px); }
+  60% { transform: translate(8px, -3px); }
+  70% { transform: translate(-3px, 5px); }
+  80% { transform: translate(6px, -8px); }
+  90% { transform: translate(-7px, 4px); }
+}
+
+#game-container.shaking {
+  animation: shake 0.4s ease-in-out;
+}
+
+#game-container.shaking-heavy {
+  animation: shake 0.8s ease-in-out;
+}
+
+/* === SHARED === */
+@keyframes pulse-text {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes pulse-timer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.timer-label {
+  font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+  color: #888;
+  letter-spacing: 0.4em;
+  margin-bottom: 0.5rem;
+}
+
+/* === CORNER MENU BUTTON === */
+.corner-menu-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  background: none;
+  border: 1px solid rgba(102, 102, 102, 0.3);
+  color: #666;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+.corner-menu-btn:hover {
+  color: #ff3333;
+  border-color: rgba(255, 51, 51, 0.5);
+}
+
+/* === IDLE SCREEN === */
+.idle-content {
+  text-align: center;
+}
+
+.idle-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: #ff3333;
+  text-shadow: 0 0 20px rgba(255, 51, 51, 0.5), 0 0 40px rgba(255, 51, 51, 0.2);
+  letter-spacing: 0.3em;
+  margin-bottom: 1rem;
+}
+
+.idle-subtitle {
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  color: #666;
+  letter-spacing: 0.5em;
+  margin-bottom: 4rem;
+}
+
+.idle-prompt {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: #ff3333;
+  letter-spacing: 0.2em;
+  animation: pulse-text 2s ease-in-out infinite;
+}
+
+/* === RESPONSIVE: SMALL SCREENS === */
+@media (max-height: 480px) {
+  .idle-subtitle {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .idle-title {
+    letter-spacing: 0.15em;
+  }
+
+  .idle-subtitle {
+    letter-spacing: 0.2em;
+    margin-bottom: 2rem;
+  }
 }

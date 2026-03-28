@@ -1,0 +1,55 @@
+/* === WIN SCREEN === */
+.win-screen {
+  background: radial-gradient(ellipse at center, #0a2a0a 0%, #0a0a0a 70%);
+}
+
+.result-content {
+  text-align: center;
+}
+
+.win-screen .result-icon {
+  font-size: clamp(4rem, 10vw, 8rem);
+  color: #33ff88;
+  text-shadow: 0 0 30px rgba(51, 255, 136, 0.6);
+  margin-bottom: 1rem;
+}
+
+.win-screen .result-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: #33ff88;
+  text-shadow: 0 0 20px rgba(51, 255, 136, 0.4);
+  letter-spacing: 0.3em;
+  margin-bottom: 1rem;
+}
+
+.win-screen .result-subtitle {
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  color: #228855;
+  letter-spacing: 0.4em;
+}
+
+/* === LOSE SCREEN === */
+.lose-screen {
+  background: radial-gradient(ellipse at center, #2a0a0a 0%, #0a0a0a 70%);
+}
+
+.lose-screen .result-icon {
+  font-size: clamp(4rem, 10vw, 8rem);
+  color: #ff3333;
+  text-shadow: 0 0 30px rgba(255, 51, 51, 0.6);
+  margin-bottom: 1rem;
+}
+
+.lose-screen .result-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: #ff3333;
+  text-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+  letter-spacing: 0.3em;
+  margin-bottom: 1rem;
+}
+
+.lose-screen .result-subtitle {
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  color: #882222;
+  letter-spacing: 0.4em;
+}
