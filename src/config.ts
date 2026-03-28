@@ -1,5 +1,5 @@
 export const CONFIG = {
-  timerSeconds: 480,
+  timerSeconds: 600,
   penaltySeconds: 20,
   codePenaltySeconds: 10,
   correctCode: '1977',
@@ -8,4 +8,6 @@ export const CONFIG = {
   wireColors: ['#ff3333', '#3388ff', '#33ff88', '#ffdd33', '#ffffff'],
   wireLabels: ['RED', 'BLUE', 'GREEN', 'YELLOW', 'WHITE'],
   countdownSeconds: 90,
+  knotPasscode: '1947',
+  knotPenaltySeconds: 5,
 } as const;
