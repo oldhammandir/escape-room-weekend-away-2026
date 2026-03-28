@@ -1,5 +1,5 @@
 export const CONFIG = {
-  timerSeconds: 900,
+  timerSeconds: 600,
   penaltySeconds: 20,
   codePenaltySeconds: 10,
   correctCode: '1977',
