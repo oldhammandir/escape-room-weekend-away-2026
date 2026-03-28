@@ -1,0 +1,62 @@
+.wire-defusal-screen {
+  flex-direction: column;
+}
+
+.timer-display {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.timer-value {
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: #33ff88;
+  text-shadow: 0 0 20px rgba(51, 255, 136, 0.5), 0 0 40px rgba(51, 255, 136, 0.2);
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-value.warning {
+  color: #ff3333;
+  text-shadow: 0 0 20px rgba(255, 51, 51, 0.5), 0 0 40px rgba(255, 51, 51, 0.2);
+  animation: pulse-timer 0.5s ease-in-out infinite;
+}
+
+.wire-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.status-bar {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.status-text {
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  color: #666;
+  letter-spacing: 0.3em;
+}
+
+@media (max-height: 480px) {
+  .timer-display {
+    top: 0.5rem;
+  }
+
+  .timer-value {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  .status-bar {
+    bottom: 0.5rem;
+  }
+}

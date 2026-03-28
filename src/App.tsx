@@ -3,6 +3,7 @@ import MenuScreen from './components/MenuScreen';
 import IdleScreen from './components/IdleScreen';
 import WinScreen from './components/WinScreen';
 import LoseScreen from './components/LoseScreen';
+import WireDefusalGame from './components/WireDefusalGame';
 
 type Screen = 'menu' | 'idle' | 'wire-defusal' | 'countdown' | 'win' | 'lose';
 
@@ -55,6 +56,13 @@ export default function App() {
     <div id="game-container" ref={containerRef}>
       <MenuScreen active={screen === 'menu'} onSelect={handleMenuSelect} />
       <IdleScreen active={screen === 'idle'} onStart={handleIdleStart} />
+      <WireDefusalGame
+        active={screen === 'wire-defusal'}
+        onWin={() => setScreen('win')}
+        onLose={() => setScreen('lose')}
+        flashScreen={flashScreen}
+        shakeScreen={shakeScreen}
+      />
       <WinScreen active={screen === 'win'} onClick={handleReturnToMenu} />
       <LoseScreen active={screen === 'lose'} onClick={handleReturnToMenu} />
 
