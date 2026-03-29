@@ -11,7 +11,7 @@ export default function WinScreen({ active, onClick }: WinScreenProps) {
     <div className={`screen win-screen${active ? ' active' : ''}`} onClick={active ? onClick : undefined}>
       <div className="result-content">
         <div className="result-icon">&#10003;</div>
-        <div className="result-title">BOMB DEFUSED</div>
+        <div className="result-title">ALARM DEFUSED</div>
         <div className="result-subtitle">SYSTEM NEUTRALIZED</div>
         <img src={successImg} alt="Success" className="result-image" />
       </div>
