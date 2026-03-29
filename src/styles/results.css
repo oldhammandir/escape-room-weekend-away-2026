@@ -28,6 +28,14 @@
   letter-spacing: 0.4em;
 }
 
+.result-image {
+  margin-top: 2rem;
+  max-width: min(90vw, 600px);
+  max-height: 50vh;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
 /* === LOSE SCREEN === */
 .lose-screen {
   background: radial-gradient(ellipse at center, #2a0a0a 0%, #0a0a0a 70%);

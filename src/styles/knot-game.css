@@ -240,6 +240,18 @@
   border-color: rgba(51, 255, 136, 0.6);
 }
 
+.knot-btn-skip {
+  color: #ffaa33;
+  border-color: rgba(255, 170, 51, 0.3);
+  background: rgba(255, 170, 51, 0.05);
+}
+
+.knot-btn-skip:hover {
+  background: rgba(255, 170, 51, 0.15);
+  border-color: rgba(255, 170, 51, 0.6);
+  color: #ffcc66;
+}
+
 /* === SECTOR CLEARED MESSAGE === */
 .knot-cleared {
   font-size: clamp(0.7rem, 1.5vw, 0.9rem);

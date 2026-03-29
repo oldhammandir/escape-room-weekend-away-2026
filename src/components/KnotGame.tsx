@@ -124,6 +124,9 @@ export default function KnotGame({ active, timeRemaining, applyPenalty, onComple
             {level + 1 >= TOTAL_SECTORS ? 'PROCEED TO WIRE DEFUSAL' : 'NEXT SECTOR'}
           </button>
         )}
+        <button className="knot-btn knot-btn-skip" onClick={onComplete}>
+          SKIP &raquo;
+        </button>
       </div>
 
       {/* Win message */}

@@ -1,3 +1,4 @@
+import successImg from '../assets/success.jpeg';
 import '../styles/results.css';
 
 interface WinScreenProps {
@@ -12,6 +13,7 @@ export default function WinScreen({ active, onClick }: WinScreenProps) {
         <div className="result-icon">&#10003;</div>
         <div className="result-title">BOMB DEFUSED</div>
         <div className="result-subtitle">SYSTEM NEUTRALIZED</div>
+        <img src={successImg} alt="Success" className="result-image" />
       </div>
     </div>
   );
