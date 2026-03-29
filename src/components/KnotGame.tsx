@@ -3,7 +3,6 @@ import { CONFIG } from '../config';
 import { formatTime } from '../hooks/useTimer';
 import { generateLevel, getLevelConfig, countCrossingPairs, TOTAL_SECTORS } from '../lib/knotPuzzleEngine';
 import KnotGameBoard from './KnotGameBoard';
-import KnotPasscodeEntry from './KnotPasscodeEntry';
 import '../styles/knot-game.css';
 
 interface KnotGameProps {
@@ -17,7 +16,6 @@ export default function KnotGame({ active, timeRemaining, applyPenalty, onComple
   const [level, setLevel] = useState(0);
   const [puzzle, setPuzzle] = useState(() => generateLevel(0));
   const [showWin, setShowWin] = useState(false);
-  const [phase, setPhase] = useState<'playing' | 'passcode'>('playing');
 
   const config = getLevelConfig(level);
   const crossings = countCrossingPairs(puzzle.nodes, puzzle.edges);
@@ -30,25 +28,17 @@ export default function KnotGame({ active, timeRemaining, applyPenalty, onComple
   const nextLevel = useCallback(() => {
     const next = level + 1;
     if (next >= TOTAL_SECTORS) {
-      setPhase('passcode');
+      onComplete();
       return;
     }
     setLevel(next);
     setPuzzle(generateLevel(next));
     setShowWin(false);
-  }, [level]);
+  }, [level, onComplete]);
 
   const onSolved = useCallback(() => {
     setShowWin(true);
   }, []);
-
-  const handlePasscodeCorrect = useCallback(() => {
-    onComplete();
-  }, [onComplete]);
-
-  const handlePasscodeWrong = useCallback(() => {
-    applyPenalty(CONFIG.knotPenaltySeconds);
-  }, [applyPenalty]);
 
   const difficultyClass =
     config.difficulty === 'Easy' ? 'easy' :
@@ -99,56 +89,46 @@ export default function KnotGame({ active, timeRemaining, applyPenalty, onComple
         <div className="knot-subtitle">REROUTE THE CIRCUITS — ELIMINATE ALL CROSSINGS</div>
       </div>
 
-      {phase === 'passcode' ? (
-        <KnotPasscodeEntry
-          correctCode={CONFIG.knotPasscode}
-          onCorrect={handlePasscodeCorrect}
-          onWrong={handlePasscodeWrong}
-        />
-      ) : (
-        <>
-          {/* Stats bar */}
-          <div className="knot-stats">
-            <div className="knot-stat">
-              SECTOR <span className="knot-stat-value">{level + 1}/{TOTAL_SECTORS}</span>
-            </div>
-            <div className={`knot-stat knot-stat-difficulty ${difficultyClass}`}>
-              {config.difficulty.toUpperCase()}
-            </div>
-            <div className="knot-stat">
-              FAULTS <span className={`knot-stat-value ${crossings > 0 ? 'danger' : 'safe'}`}>
-                {crossings}
-              </span>
-            </div>
-            <div className="knot-stat">
-              NODES <span className="knot-stat-value">{config.nodeCount}</span>
-            </div>
-          </div>
+      {/* Stats bar */}
+      <div className="knot-stats">
+        <div className="knot-stat">
+          SECTOR <span className="knot-stat-value">{level + 1}/{TOTAL_SECTORS}</span>
+        </div>
+        <div className={`knot-stat knot-stat-difficulty ${difficultyClass}`}>
+          {config.difficulty.toUpperCase()}
+        </div>
+        <div className="knot-stat">
+          FAULTS <span className={`knot-stat-value ${crossings > 0 ? 'danger' : 'safe'}`}>
+            {crossings}
+          </span>
+        </div>
+        <div className="knot-stat">
+          NODES <span className="knot-stat-value">{config.nodeCount}</span>
+        </div>
+      </div>
 
-          {/* Game board */}
-          <KnotGameBoard
-            initialNodes={puzzle.nodes}
-            edges={puzzle.edges}
-            onSolved={onSolved}
-          />
+      {/* Game board */}
+      <KnotGameBoard
+        initialNodes={puzzle.nodes}
+        edges={puzzle.edges}
+        onSolved={onSolved}
+      />
 
-          {/* Controls */}
-          <div className="knot-controls">
-            <button className="knot-btn" onClick={resetLevel}>
-              SCRAMBLE
-            </button>
-            {showWin && (
-              <button className="knot-btn knot-btn-next" onClick={nextLevel}>
-                {level + 1 >= TOTAL_SECTORS ? 'ENTER OVERRIDE CODE' : 'NEXT SECTOR'}
-              </button>
-            )}
-          </div>
+      {/* Controls */}
+      <div className="knot-controls">
+        <button className="knot-btn" onClick={resetLevel}>
+          SCRAMBLE
+        </button>
+        {showWin && (
+          <button className="knot-btn knot-btn-next" onClick={nextLevel}>
+            {level + 1 >= TOTAL_SECTORS ? 'PROCEED TO WIRE DEFUSAL' : 'NEXT SECTOR'}
+          </button>
+        )}
+      </div>
 
-          {/* Win message */}
-          {showWin && (
-            <div className="knot-cleared">SECTOR CLEARED</div>
-          )}
-        </>
+      {/* Win message */}
+      {showWin && (
+        <div className="knot-cleared">SECTOR CLEARED</div>
       )}
     </div>
   );
