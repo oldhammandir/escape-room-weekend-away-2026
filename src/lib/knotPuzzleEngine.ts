@@ -88,11 +88,11 @@ export function getLevelConfig(level: number): LevelConfig {
   const levels: LevelConfig[] = [
     { nodeCount: 10, maxExtraEdges: 15, difficulty: 'Easy', name: 'Sector 1' },
     { nodeCount: 10, maxExtraEdges: 15, difficulty: 'Easy', name: 'Sector 2' },
-    { nodeCount: 10, maxExtraEdges: 16, difficulty: 'Medium', name: 'Sector 3' },
+    { nodeCount: 10, maxExtraEdges: 15, difficulty: 'Easy', name: 'Sector 3' },
     { nodeCount: 10, maxExtraEdges: 16, difficulty: 'Medium', name: 'Sector 4' },
-    { nodeCount: 10, maxExtraEdges: 17, difficulty: 'Hard', name: 'Sector 5' },
-    { nodeCount: 10, maxExtraEdges: 17, difficulty: 'Hard', name: 'Sector 6' },
-    { nodeCount: 10, maxExtraEdges: 18, difficulty: 'Critical', name: 'Sector 7' },
+    { nodeCount: 10, maxExtraEdges: 16, difficulty: 'Medium', name: 'Sector 5' },
+    { nodeCount: 10, maxExtraEdges: 16, difficulty: 'Medium', name: 'Sector 6' },
+    { nodeCount: 10, maxExtraEdges: 16, difficulty: 'Medium', name: 'Sector 7' },
   ];
   if (level < levels.length) return levels[level];
   return levels[levels.length - 1];
